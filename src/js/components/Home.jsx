@@ -1,26 +1,46 @@
-import React from "react";
-
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import React, { useState } from "react";
+import ToDo from "./ToDo";
 
 //create your first component
 const Home = () => {
-	return (
-		<div className="text-center">
-            
+	const [toDoList, setToDoList] = useState([""])
+	const [inputValue, setInputValue] = useState("")
+	const handleKeyDown = (e) => {
+		if (e.key === "Enter" && inputValue.trim() !== "") {
+			setToDoList([...toDoList, inputValue.trim()]);
+			setInputValue("");
+		}
+	};
 
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+	const handleDelete = (indexToDelete) => {
+		setToDoList(toDoList.filter((_, index) => index !== indexToDelete));
+	}
+	return (
+		<div className="d-flex flex-column align-items-center">
+			<h1 className="text-center">
+				To Do List
+			</h1>
+
+			<div className="d-flex flex-column" style={{ width: "600px" }}>
+				<input
+					type="text"
+					className="form-control"
+					placeholder="No hay tareas, añadir tareas"
+					value={inputValue}
+					onChange={(e) => setInputValue(e.target.value)}
+					onKeyDown={handleKeyDown}
+				/>
+				{
+					toDoList.map((value, index) => (
+						<ToDo toDo={value} key={index} onDelete={()=> handleDelete(index)} />
+					))
+				}
+				<p className="form-text p-2 m-0 border">
+					{/* tengo duda de como hacer para que aparezca en cero y que en realidad no arranque con un input vacio*/}
+					{toDoList.length} items{toDoList.length !==1 ? "s" : ""} left
+				</p>
+			</div>
+
 		</div>
 	);
 };
