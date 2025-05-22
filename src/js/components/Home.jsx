@@ -3,7 +3,7 @@ import ToDo from "./ToDo";
 
 //create your first component
 const Home = () => {
-	const [toDoList, setToDoList] = useState([""])
+	const [toDoList, setToDoList] = useState([])
 	const [inputValue, setInputValue] = useState("")
 	const handleKeyDown = (e) => {
 		if (e.key === "Enter" && inputValue.trim() !== "") {
@@ -35,8 +35,7 @@ const Home = () => {
 						<ToDo toDo={value} key={index} onDelete={()=> handleDelete(index)} />
 					))
 				}
-				<p className="form-text p-2 m-0 border">
-					{/* tengo duda de como hacer para que aparezca en cero y que en realidad no arranque con un input vacio*/}
+				<p className="form-text p-2 m-0 border">	
 					{toDoList.length} items{toDoList.length !==1 ? "s" : ""} left
 				</p>
 			</div>
